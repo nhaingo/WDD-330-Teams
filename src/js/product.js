@@ -15,10 +15,8 @@ const product = urlParams.get('product')
 const product2 = new ProductDetails(productId, dataSource);
 product.init();
 
-
-
 function addProductToCart(product) {
-  setLocalStorage("so-cart", product);
+  setLocalStorage('so-cart', product);
 }
 // add to cart button event handler
 async function addToCartHandler(e) {
