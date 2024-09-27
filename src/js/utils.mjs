@@ -11,6 +11,8 @@ export function qs(selector, parent = document) {
   }
   // save data to local storage
   export function setLocalStorage(key, data) {
+    let oldData = getLocalStorage(key) || [];
+    oldData.push(data);
     localStorage.setItem(key, JSON.stringify(data));
   }
   // set a listener for both touchend and click
@@ -20,4 +22,12 @@ export function qs(selector, parent = document) {
       callback();
     });
     qs(selector).addEventListener("click", callback);
+  }
+
+  export function getParams(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const product = urlParams.get(param);
+   
+    return product;
   }
