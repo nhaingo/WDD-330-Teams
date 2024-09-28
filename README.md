@@ -2,6 +2,8 @@
 
 Link 01 to Sleep Outside Assignment: https://curtisjprice.github.io/WDD-330-Teams/src/index.html
 
+Live server link for Sleep Outside: http://127.0.0.1:5500/src/index.html
+
 ## Description
 
 Use this as a starting point to complete the WDD 330 team activity: the SleepOutside web application. It scaffolds out a simple web app with Vite support to bundle up our assets.
