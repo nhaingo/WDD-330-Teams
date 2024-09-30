@@ -7,7 +7,8 @@ export function qs(selector, parent = document) {
   
   // retrieve data from localstorage
   export function getLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key));
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value): [];
   }
   // save data to local storage
   export function setLocalStorage(key, data) {
@@ -24,10 +25,9 @@ export function qs(selector, parent = document) {
     qs(selector).addEventListener("click", callback);
   }
 
-  export function getParams(param) {
+  export function getParam(param) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const product = urlParams.get(param);
-   
-    return product;
+
+    return urlParams.get(param);
   }
