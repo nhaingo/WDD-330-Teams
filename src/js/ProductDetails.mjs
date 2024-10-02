@@ -44,14 +44,14 @@ export default class ProductDetails {
       }
 
       addToCart() {
-        let cart = getLocalStorage("shoppingCart");
+        let cart = getLocalStorage("so-cart");
         const productExists = cart.some((item) => item.Id === this.product.Id);
     
         if (productExists) {
             alert(`${this.product.Name} is already in your cart.`);
         } else {
             cart.push(this.product);
-            setLocalStorage("shoppingCart", cart);
+            setLocalStorage("so-cart", cart);
             alert(`${this.product.Name} has been added to your cart!`);
         }
       }
