@@ -1,8 +1,14 @@
 # sleepoutside
 
+<<<<<<< HEAD
 Link 01 to Sleep Outside Assignment: https://curtisjprice.github.io/WDD-330-Teams/src/index.html
 
 Live server link for Sleep Outside: http://127.0.0.1:5500/src/index.html
+=======
+## Netifly Site Link
+
+https://imaginative-tiramisu-afdf82.netlify.app/
+>>>>>>> 96ad92fd363a1f987292790361109c9455d7e65d
 
 ## Description
 
