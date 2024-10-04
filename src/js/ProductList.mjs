@@ -15,16 +15,11 @@ export default class ProductListing {
       const productList = await this.dataSource.getData();
       const filteredList = this.filterProducts(productList);
       this.renderList(filteredList);
-    //   this.renderList(productList);
     }
   
     renderList(productList) {
-        // console.log(productList);
-        // this.listElement.innerHTML = productList
-        // .map((product) => productCardTemplate(product))
-        // .join('');
-
-        renderListWithTemplate(productCardTemplate, this.listElement, productList);
+        console.log(productList);
+        this.listElement.innerHTML = productList.map((product) => productCardTemplate(product)).join('');
     }
   }
 
