@@ -20,7 +20,7 @@ export default class ProductDetails {
       }
  
       renderProductDetails() {
-        const productContainer = document.getElementById('dynamic-product-details');
+        const productContainer = document.querySelector('.product-detail');
     
         if (this.product) {
           productContainer.innerHTML = `<section class="product-detail"> <h3>${this.product.Brand.Name}</h3>
