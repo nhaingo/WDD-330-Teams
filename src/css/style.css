@@ -154,6 +154,30 @@ button {
 .card__name {
   font-size: 1em;
 }
+
+/* Category grid container */
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Space between the category items */
+  margin-top: 20px;
+}
+
+/* Category box styling */
+.category-box {
+  text-align: center;
+}
+
+.category-box img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.category-box p {
+  margin: 0;
+  font-weight: bold;
+}
 /* End product list card */
 
 .product-detail {
