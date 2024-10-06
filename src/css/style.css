@@ -213,6 +213,20 @@ button {
   cursor: pointer;
 }
 
+.cart-total-top,
+.cart-footer {
+  display: none;
+}
+
+.cart-total-top.show,
+.cart-footer.show {
+  display: block;
+  text-align: right;
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .cart-card .card__name {
   grid-row: 1;
   grid-column: 2;

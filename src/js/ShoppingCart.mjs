@@ -1,30 +1,38 @@
-import { getLocalStorage, renderListWithTemplate } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, } from './utils.mjs';
 
 export default class ShoppingCart {
-  constructor(key, listElement) {
-    this.key = key;
+  constructor(storageKey, listElement) {
+    this.storageKey = storageKey;
     this.listElement = listElement;
-  }
-
-  getCartItems() {
-    return getLocalStorage(this.key);
+    this.cartTotalTop = document.querySelector('.cart-total-top');
+    this.cartFooter = document.querySelector('.cart-footer');
   }
 
   init() {
+    this.renderCartContents();
+  }
+
+  getCartItems() {
+    return getLocalStorage(this.storageKey) || [];
+  }
+
+  renderCartContents() {
     const cartItems = this.getCartItems();
-    this.renderCart(cartItems);
+    const htmlItems = cartItems.map((item) => this.cartItemTemplate(item));
+    this.listElement.innerHTML = htmlItems.join('');
+
+    this.listElement.querySelectorAll('.remove-item').forEach((button) => {
+      button.addEventListener('click', (event) => this.removeCartItem(event));
+    });
+
+    this.updateCartFooter();
   }
 
-  renderCart(cartItems) {
-    renderListWithTemplate(cartItemTemplate, this.listElement, cartItems, 'beforeend', true);
-  }
-}
-
-function cartItemTemplate(item) {
-    const newItem = `<li class="cart-card divider">
+  cartItemTemplate(item) {
+    return `<li class="cart-card divider">
     <a href="#" class="cart-card__image">
       <img
-        src="${item.Image}"
+        src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
       />
     </a>
@@ -34,7 +42,33 @@ function cartItemTemplate(item) {
     <p class="cart-card__color">${item.Colors[0].ColorName}</p>
     <p class="cart-card__quantity">qty: 1</p>
     <p class="cart-card__price">$${item.FinalPrice}</p>
+    <button class='remove-item' data-id='${item.Id}'>X</button>
   </li>`;
-  
-    return newItem;
   }
+
+  removeCartItem(event) {
+    const itemId = event.target.getAttribute('data-id');
+    let cartItems = this.getCartItems();
+
+    cartItems = cartItems.filter((item) => item.Id !== itemId);
+
+    setLocalStorage(this.storageKey, cartItems);
+    this.renderCartContents();
+  }
+
+  updateCartFooter() {
+    const cartItems = this.getCartItems();
+    const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
+
+    if (cartItems.length > 0) {
+      this.cartTotalTop.classList.add('show');
+      this.cartTotalTop.textContent = `Total: $${total.toFixed(2)}`;
+
+      this.cartFooter.classList.add('show');
+      this.cartFooter.querySelector('.cart-total').textContent = `Total: $${total.toFixed(2)}`;
+    } else {
+      this.cartTotalTop.classList.remove('show');
+      this.cartFooter.classList.remove('show');
+    }
+  }
+}
