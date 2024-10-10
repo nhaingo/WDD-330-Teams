@@ -8,33 +8,42 @@ function convertToJson(res) {
   }
 }
 
-export default class ProductData {
+export default class ExternalServices {
   constructor(category) {
     // this.category = category;
     // this.path = `../json/${this.category}.json`;
   }
 
-  // Fetch data from the JSON file
   async getData(category) {
     const response = await fetch(baseURL + `products/search/${category}`);
     const data = await convertToJson(response);
     return data.Result;
   }
 
-  // Find a specific product by its ID
   async findProductById(id) {
     try {
         console.log('Fetching product with ID:', id);
         const response = await fetch(baseURL + `product/${id}`);
         const data = await convertToJson(response);
 
-        // Log the full response to check if the structure is what you expect
         console.log('API Full Response:', data);
 
-        // Check if data.Result contains the product
         return data.Result;
     } catch (error) {
         console.error('Error fetching product by ID:', error);
     }
+  }
+
+  async checkout(payload) {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(baseURL + "checkout/", options);
+
+    return await convertToJson(response);
   }
 }

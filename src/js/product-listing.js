@@ -1,4 +1,4 @@
-import ProductData from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 import ProductListing from './ProductList.mjs';
 import { getParam, loadHeaderFooter } from './utils.mjs';
 
@@ -10,7 +10,7 @@ if (category) {
   document.querySelector('#category-title').textContent =
     `Top Products: ${capitalizedCategory}`;
 }
-const dataSource = new ProductData();
+const dataSource = new ExternalServices();
 const listElement = document.querySelector('.product-list');
 const productListing = new ProductListing(category, dataSource, listElement);
 
