@@ -1,11 +1,36 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
 
+function formDataToJSON(form) {
+  const formData = new FormData(form),
+    convertedJSON = {};
+
+  formData.forEach(function (value, key) {
+    convertedJSON[key] = value;
+  });
+
+  return convertedJSON;
+}
+
+function packageItems(items) {
+  const simplifiedItems = items.map((item) => {
+    console.log(item);
+    return {
+      id: item.Id,
+      price: item.FinalPrice,
+      name: item.Name,
+      quantity: 1,
+    };
+  });
+  return simplifiedItems;
+}
+
 export default class CheckoutProcess {
-  constructor(key) {
+  constructor(key, outputSelectors) {
     this.key = key;
+    this.outputSelectors = outputSelectors;
     this.cartItems = [];
     this.subtotal = 0;
     this.shipping = 0;
@@ -19,13 +44,13 @@ export default class CheckoutProcess {
   }
 
   calculateItemSummary() {
-    const subtotalElement = document.querySelector("#subtotal");
+    const subtotalElement = document.querySelector(this.outputSelectors.subtotal);
     const itemNumElement = document.querySelector("#num-items");
 
-    itemNumElement.textContent = this.cartItems.length;
+    itemNumElement.innerText = this.cartItems.length;
 
     this.subtotal = this.cartItems.reduce((total, item) => total + item.FinalPrice, 0);
-    subtotalElement.textContent = `$${this.subtotal.toFixed(2)}`;
+    subtotalElement.innerText = `$${this.subtotal.toFixed(2)}`;
 
     this.calculateOrderTotal();
   }
@@ -41,58 +66,33 @@ export default class CheckoutProcess {
   }
 
   displayOrderTotals() {
-    document.querySelector("#shipping").textContent = `$${this.shipping.toFixed(2)}`;
-    document.querySelector("#tax").textContent = `$${this.tax.toFixed(2)}`;
+    document.querySelector(this.outputSelectors.shipping).textContent = `$${this.shipping.toFixed(2)}`;
+    document.querySelector(this.outputSelectors.tax).textContent = `$${this.tax.toFixed(2)}`;
     document.querySelector("#order-total").textContent = `$${this.orderTotal.toFixed(2)}`;
   }
 
-  async checkout(form) {
-    const orderDetails = this.prepareOrder(form);
+  async checkout() {
+    const form = document.forms["checkout-form"];
 
+    const json = formDataToJSON(form);
+    json.orderDate = new Date();
+    json.orderTotal = this.orderTotal;
+    json.tax = this.tax;
+    json.shipping = this.shipping;
+    json.items = packageItems(this.cartItems);
+    console.log(json);
     try {
-      const response = await services.checkout(orderDetails);
-      console.log("Order details being sent:", orderDetails);
-      console.log("Response from server:", response);
-      if (response.success) {
-        console.log("Order successful", response);
-        alert('Order successful');
-      } else {
-        console.log("Order failed:", response);
-        alert('Check Console');
+      const res = await services.checkout(json);
+      console.log(res);
+      setLocalStorage("so-cart", []);
+      location.assign("/checkout/success.html");
+    } catch (err) {
+      for (let message in err.message) {
+        alertMessage(err.message[message]);
       }
-    } catch (error) {
-      console.error("An error occurred during checkout:", error);
+
+      console.log(err);
     }
   }
 
-  prepareOrder(form) {
-    const formData = new FormData(form);
-    const items = this.packageItems(this.cartItems);
-
-    return {
-      orderDate: new Date().toISOString(),
-      fname: formData.get("fname"),
-      lname: formData.get("lname"),
-      street: formData.get("street"),
-      city: formData.get("city"),
-      state: formData.get("state"),
-      zip: formData.get("zip"),
-      cardNumber: formData.get("cardNumber"),
-      expiration: formData.get("expiration"),
-      code: formData.get("code"),
-      items: items,
-      orderTotal: this.orderTotal.toFixed(2),
-      shipping: this.shipping.toFixed(2),
-      tax: this.tax.toFixed(2),
-    };
-  }
-
-  packageItems(items) {
-    return items.map((item) => ({
-      id: item.Id,
-      price: item.FinalPrice,
-      name: item.Name,
-      quantity: 1,
-    }));
-  }
 }

@@ -1,10 +1,11 @@
 const baseURL = import.meta.env.VITE_SERVER_URL
 
-function convertToJson(res) {
+async function convertToJson(res) {
+  const data = await res.json();
   if (res.ok) {
-    return res.json();
+    return data;
   } else {
-    throw new Error('Bad Response');
+    throw { name: "servicesError", message: data };
   }
 }
 
@@ -13,27 +14,16 @@ export default class ExternalServices {
     // this.category = category;
     // this.path = `../json/${this.category}.json`;
   }
-
   async getData(category) {
     const response = await fetch(baseURL + `products/search/${category}`);
     const data = await convertToJson(response);
     return data.Result;
   }
-
   async findProductById(id) {
-    try {
-        console.log('Fetching product with ID:', id);
-        const response = await fetch(baseURL + `product/${id}`);
-        const data = await convertToJson(response);
-
-        console.log('API Full Response:', data);
-
-        return data.Result;
-    } catch (error) {
-        console.error('Error fetching product by ID:', error);
-    }
+    const response = await fetch(baseURL + `product/${id}`);
+    const data = await convertToJson(response);
+    return data.Result;
   }
-
   async checkout(payload) {
     const options = {
       method: "POST",
@@ -42,8 +32,6 @@ export default class ExternalServices {
       },
       body: JSON.stringify(payload),
     };
-    const response = await fetch(baseURL + "checkout/", options);
-
-    return await convertToJson(response);
+    return await fetch(baseURL + "checkout/", options).then(convertToJson);
   }
 }

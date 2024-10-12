@@ -49,13 +49,6 @@ export function qs(selector, parent = document) {
     }
   }
 
-  // export async function convertToText(res) {
-  //   if (!res.ok) {
-  //     throw new Error('error');
-  //   }
-  //   return res.text();
-  // }
-
   async function loadTemplate(path) {
     const res = await fetch(path);
     const template = await res.text();
@@ -72,3 +65,20 @@ export function qs(selector, parent = document) {
     renderWithTemplate(headerFile, headerDOM);
     renderWithTemplate(footerFile, footerDOM);
   }
+
+  export function alertMessage(message, scroll = true) {
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    alert.innerHTML = `<span>${message}</span> <button class="close-btn">X</button>`;
+
+    alert.querySelector('.close-btn').addEventListener('click', function () {
+        alert.remove();
+    });
+
+    const main = document.querySelector('main');
+    main.prepend(alert);
+
+    if (scroll) {
+        window.scrollTo(0, 0);
+    }
+}

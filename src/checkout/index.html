@@ -20,51 +20,99 @@
       <h2>Review & Place your Order</h2>
       <div class="checkout-container">
         <form id="checkout-form">
-          <h2>Billing Details</h2>
-          <label for="fname">First Name:</label>
-          <input type="text" name="fname" required />
+          <fieldset class="billing-details">
+            <legend>Billing Details</legend>
+            <label id="fname"
+              >First Name*<input type="text" name="fname" required
+            /></label>
 
-          <label for="lname">Last Name:</label>
-          <input type="text" name="lname" required />
+            <label id="lname"
+              >Last Name*<input type="text" name="lname" required
+            /></label>
 
-          <label for="street">Street Address:</label>
-          <input type="text" name="street" required />
+            <label id="street"
+              >Street Address*<input type="text" name="street" required
+            /></label>
 
-          <label for="city">City:</label>
-          <input type="text" name="city" required />
+            <label id="city"
+              >City* <input type="text" name="city" required
+            /></label>
 
-          <label for="state">State:</label>
-          <input type="text" name="state" required />
+            <label id="state"
+              >State*
+              <input
+                type="text"
+                name="state"
+                pattern="[A-Z]{2}"
+                title="Enter a valid 2-letter state code (e.g., ID, UT)"
+                required
+            /></label>
 
-          <label for="zip">Zip Code:</label>
-          <input type="text" name="zip" required />
+            <label id="zip"
+              >Zip Code*
+              <input
+                type="text"
+                name="zip"
+                pattern="\d{5}"
+                title="Enter a valid 5-digit ZIP code"
+                required
+            /></label>
+          </fieldset>
 
-          <h2>Payment Information</h2>
-          <label for="cardNumber">Credit Card Number:</label>
-          <input
-            type="text"
-            name="cardNumber"
-            required
-            value="1234123412341234"
-          />
+          <fieldset class="payment-information">
+            <legend>Payment Information</legend>
+            <label id="cardNumber"
+              >Credit Card Number*
+              <input
+                type="text"
+                name="cardNumber"
+                pattern="\d{16}"
+                maxlength="16"
+                title="Enter a 16-digit number"
+                value="1234123412341234"
+                required
+            /></label>
 
-          <label for="expiration">Expiration Date:</label>
-          <input type="text" name="expiration" required value="12/25" />
+            <label id="expiration"
+              >Expiration Date*
+              <input
+                type="text"
+                name="expiration"
+                pattern="(0[1-9]|1[0-2]|[1-9])\/[0-9]{2}"
+                title="M/YY or MM/YY format only"
+                value="10/25"
+                required
+            /></label>
 
-          <label for="code">Security Code:</label>
-          <input type="text" name="code" required value="123" />
+            <label id="code"
+              >Security Code/CVV*
+              <input
+                type="text"
+                name="code"
+                pattern="\d{3}"
+                maxlength="3"
+                title="Enter a 3-digit security code/cvv"
+                value="123"
+                required
+            /></label>
+          </fieldset>
 
-          <button type="submit">Checkout</button>
+          <fieldset class="order-summary">
+            <legend>Order Summary</legend>
+            <p>Items in Cart: <span id="num-items"></span></p>
+            <p>Subtotal: <span id="subtotal"></span></p>
+            <p>Shipping: <span id="shipping"></span></p>
+            <p>Tax: <span id="tax"></span></p>
+            <p>Total: <span id="order-total"></span></p>
+          </fieldset>
+
+          <label id="submit"
+            ><input
+              type="submit"
+              name="submitBtn"
+              value="Complete Cart Checkout"
+          /></label>
         </form>
-
-        <div class="order-summary">
-          <h2>Order Summary</h2>
-          <p>Items in Cart: <span id="num-items"></span></p>
-          <p>Subtotal: <span id="subtotal"></span></p>
-          <p>Shipping: <span id="shipping"></span></p>
-          <p>Tax: <span id="tax"></span></p>
-          <p>Total: <span id="order-total"></span></p>
-        </div>
       </div>
     </main>
 
