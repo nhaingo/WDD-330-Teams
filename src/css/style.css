@@ -272,6 +272,13 @@ form {
   flex-direction: column;
   gap: 15px;
 }
+/* comment section */
+.comment-section {
+  max-width: 428px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .order-summary {
   flex-basis: 30%;
