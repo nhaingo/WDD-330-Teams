@@ -376,3 +376,33 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* Button */
+.signup-btn {
+  padding: 10px 20px;
+  background-color: #95989b;
+  /* gray color, change as needed */
+  color: #fff;
+  /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.signup-btn:hover {
+  background-color: #0056b3;
+  /* Darker blue color on hover */
+}
+.signUpNews {
+  padding: 10px 20px;
+  background-color: #222f3d;
+  /* gray color, change as needed */
+  color: #fff;
+  /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
