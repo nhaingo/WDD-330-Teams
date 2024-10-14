@@ -297,6 +297,13 @@ fieldset {
   grid-column: 1 / 2;
   grid-row: 2;
 }
+/* comment section */
+.comment-section {
+  max-width: 428px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .order-summary {
   grid-column: 2 / 3;
