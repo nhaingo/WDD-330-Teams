@@ -70,3 +70,45 @@ export default class ProductDetails {
   }
 }
  
+
+// comment Selection
+const commentForm = document.getElementById('comment-form');
+const commentInput = document.getElementById('comment-input');
+const commentList = document.getElementById('comment-list');
+
+// Load comments from local storage (if any)
+window.onload = () => {
+  const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+  savedComments.forEach(comment => addCommentToDOM(comment));
+};
+
+// Handle form submission
+commentForm.addEventListener('submit', (e) => {
+  e.preventDefault(); // Prevent page reload
+
+  const commentText = commentInput.value.trim();
+  if (commentText === '') return; // Ignore empty comments
+
+  // Add comment to the DOM
+  addCommentToDOM(commentText);
+
+  // Save comment to local storage
+  saveComment(commentText);
+
+  // Clear the input field
+  commentInput.value = '';
+});
+
+// Function to add a comment to the DOM
+function addCommentToDOM(comment) {
+  const li = document.createElement('li');
+  li.textContent = comment;
+  commentList.appendChild(li);
+}
+
+// Function to save a comment to local storage
+function saveComment(comment) {
+  const existingComments = JSON.parse(localStorage.getItem('comments')) || [];
+  existingComments.push(comment);
+  localStorage.setItem('comments', JSON.stringify(existingComments));
+}
